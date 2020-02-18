@@ -5,4 +5,4 @@ from hotelapp.models import Room, Client, BookingOrder, HistoryPrice
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        print('Работаем!')
+        print('Работаем!!')
