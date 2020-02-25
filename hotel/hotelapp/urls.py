@@ -6,6 +6,7 @@ app_name = 'hotelapp'
 
 urlpatterns = [
     path('', views.main_view, name='index'),
-    path('create/', views.create_post, name='create'),
-    path('post/<int:id>/', views.post, name='post'),
+    path('booking/', views.booking, name='booking'),
+    path('gallery/', views.gallery, name='gallery'),
+    path('contact/', views.contact, name='contact'),
 ]

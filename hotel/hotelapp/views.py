@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Client
+from .models import Client,Gallery
 from .forms import ContactForm
 from django.core.mail import send_mail
 
@@ -12,7 +12,17 @@ def main_view(request):
     return render(request, 'hotelapp/index.html', context={'clients': clients})
 
 
-def create_post(request):
+def booking(request):
+    clients = Client.objects.all()
+    return render(request, 'hotelapp/booking.html', context={'clients': clients})
+
+
+def gallery(request):
+    pictures = Gallery.objects.all()
+    return render(request, 'hotelapp/gallery.html', context={'pictures': pictures})
+
+
+def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -31,12 +41,8 @@ def create_post(request):
 
             return HttpResponseRedirect(reverse('hotel:index'))
         else:
-            return render(request, 'hotelapp/create.html', context={'form': form})
+            return render(request, 'hotelapp/contact.html', context={'form': form})
     else:
         form = ContactForm()
-        return render(request, 'hotelapp/create.html', context={'form': form})
+        return render(request, 'hotelapp/contact.html', context={'form': form})
 
-
-def post(request, id):
-    post = get_object_or_404(Post, id=id)
-    return render(request, 'hotelapp/post.html', context={'post': post})
