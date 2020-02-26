@@ -1,20 +1,34 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Client,Gallery
-from .forms import ContactForm
+from .models import Client, Gallery
+from .forms import ContactForm, BookingForm
 from django.core.mail import send_mail
 
 
 # Create your views here.
 def main_view(request):
-    clients = Client.objects.all()
-    return render(request, 'hotelapp/index.html', context={'clients': clients})
+    return render(request, 'hotelapp/index.html', context={})
 
 
 def booking(request):
-    clients = Client.objects.all()
-    return render(request, 'hotelapp/booking.html', context={'clients': clients})
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            # Получить данные из форы
+            who = form.cleaned_data['who']
+            room = form.cleaned_data['room']
+            data_in = form.cleaned_data['data_in']
+            data_out = form.cleaned_data['data_out']
+            is_breakfast = form.cleaned_data['is_breakfast']
+
+            #TODO: тут будем вносить данные в базу клиентов и бронирования
+            return HttpResponseRedirect(reverse('hotel:index'))
+        else:
+            return render(request, 'hotelapp/booking.html', context={'form': form})
+    else:
+        form = BookingForm()
+        return render(request, 'hotelapp/booking.html', context={'form': form})
 
 
 def gallery(request):
@@ -33,7 +47,7 @@ def contact(request):
 
             send_mail(
                 'Contact message',
-                f'Ваш сообщение {message} принято',
+                f'Ваше сообщение {message} принято',
                 'from@example.com',
                 [email],
                 fail_silently=True,
@@ -45,4 +59,3 @@ def contact(request):
     else:
         form = ContactForm()
         return render(request, 'hotelapp/contact.html', context={'form': form})
-
