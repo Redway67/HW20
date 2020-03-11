@@ -22,7 +22,6 @@ def booking(request):
             data_out = form.cleaned_data['data_out']
             is_breakfast = form.cleaned_data['is_breakfast']
 
-            #TODO: тут будем вносить данные в базу клиентов и бронирования
             return HttpResponseRedirect(reverse('hotel:index'))
         else:
             return render(request, 'hotelapp/booking.html', context={'form': form})
