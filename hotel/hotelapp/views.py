@@ -12,22 +12,16 @@ def main_view(request):
 
 
 def booking(request):
-    if request.method == 'POST':
-        form = BookingForm(request.POST)
+    if request.method == 'GET':
+        form = BookingForm()
+        return render(request, 'hotelapp/booking.html', context={'form': form})
+    else:
+        form = BookingForm(request.POST, files=request.FILES)
         if form.is_valid():
-            # Получить данные из форы
-            who = form.cleaned_data['who']
-            room = form.cleaned_data['room']
-            data_in = form.cleaned_data['data_in']
-            data_out = form.cleaned_data['data_out']
-            is_breakfast = form.cleaned_data['is_breakfast']
-
+            form.save()
             return HttpResponseRedirect(reverse('hotel:index'))
         else:
             return render(request, 'hotelapp/booking.html', context={'form': form})
-    else:
-        form = BookingForm()
-        return render(request, 'hotelapp/booking.html', context={'form': form})
 
 
 def gallery(request):
@@ -39,7 +33,7 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            # Получить данные из форы
+            # Получить данные из формы
             name = form.cleaned_data['name']
             message = form.cleaned_data['message']
             email = form.cleaned_data['email']
