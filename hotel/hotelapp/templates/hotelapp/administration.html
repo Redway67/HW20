@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Управление
+{% endblock %}
+
+{% block content %}
+<h2> Это должно быть в отдельном приложении АРМ Администратора ! </h2>
+    <ul>
+        {% for item in object_list %}
+        <li>
+            {{item.name}}
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
