@@ -7,9 +7,19 @@
 {% block content %}
 <h2> Это должно быть в отдельном приложении АРМ Администратора ! </h2>
     <ul>
-        {% for item in object_list %}
+        {% for item in books %}
         <li>
-            {{item.name}}
+        <a href="{% url 'hotel:booking_detail' pk=item.pk %}">
+            {{item.who}}
+        </a>
+        /
+        <a href="{% url 'hotel:booking_update' pk=item.pk %}">
+            Изменить
+        </a>
+        /
+        <a href="{% url 'hotel:booking_delete' pk=item.pk %}">
+            Удалить
+        </a>
         </li>
         {% endfor %}
     </ul>

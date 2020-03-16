@@ -44,7 +44,6 @@ class GalleryView(ListView):
 class BookingCreateView(CreateView):
     model = BookingOrder
     fields = '__all__'
-    exclude = ('room',)  # Номер комнаты вводит Администратор
     success_url = reverse_lazy('hotel:index')
     template_name = 'hotelapp/booking.html'
 
@@ -52,3 +51,33 @@ class BookingCreateView(CreateView):
 class AdmListView(ListView):
     model = BookingOrder
     template_name = 'hotelapp/administration.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        return BookingOrder.objects.all()
+
+
+class BookDetailView(DetailView):
+    model = BookingOrder
+    template_name = 'hotelapp/booking_detail.html'
+    success_url = reverse_lazy('hotel:administration.html')
+
+    def get(self, request, *args, **kwargs):
+        self.booking_id = kwargs['pk']
+        return super().get(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(BookingOrder, pk=self.booking_id)
+
+
+class BookUpdateView(UpdateView):
+    template_name = 'hotelapp/booking_update.html'
+    model = BookingOrder
+    fields = '__all__'
+    success_url = reverse_lazy('hotel:administration.html')
+
+
+class BookDeleteView(DeleteView):
+    template_name = 'hotelapp/booking_delete_confirm.html'
+    model = BookingOrder
+    success_url = reverse_lazy('hotel:administration.html')
