@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Управление
+{% endblock %}
+
+{% block content %}
+<h2> {{warning}} </h2>
+    <ul>
+        {% for item in books %}
+        <li>
+        <a href="{% url 'hotel:booking_detail' pk=item.pk %}">
+            {{item.who}}
+        </a>
+        /
+        <a href="{% url 'hotel:booking_update' pk=item.pk %}">
+            Изменить
+        </a>
+        /
+        <a href="{% url 'hotel:booking_delete' pk=item.pk %}">
+            Удалить
+        </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

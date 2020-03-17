@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+ Подробная информация
+{% endblock%}
+
+{% block content %}
+<h2> {{warning}} </h2>
+<div class="row">
+    <h1>{{name}}</h1>
+    <div class="col-lg-8 col-md-10 mx-auto">
+        ГОСТЬ {{object.who}} НОМЕР {{object.room}} с {{object.data_in}} по {{object.data_out}}
+    </div>
+
+    <a href="{% url 'hotel:booking_update' pk=object.pk %}">
+            Изменить
+        </a>
+</div>
+{% endblock %}
