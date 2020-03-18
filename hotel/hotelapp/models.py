@@ -1,5 +1,6 @@
 from django.db import models
 from phone_field import PhoneField
+from usersapp.models import GuestUser
 
 
 # Номерной фонд
@@ -34,6 +35,7 @@ class BookingOrder(models.Model):
     data_in = models.DateField(db_index=True)
     data_out = models.DateField()
     is_breakfast = models.BooleanField()
+    user = models.ForeignKey(GuestUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Гость:{self.who} Заезд:{self.data_in} Выезд:{self.data_out} Номер:{self.room}'
