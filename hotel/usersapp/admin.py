@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import GuestUser
+from .models import HotelUser
 
 # Register your models here.
-admin.site.register(GuestUser)
+admin.site.register(HotelUser)

@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 from .models import Client, Gallery, BookingOrder
@@ -41,9 +43,9 @@ class GalleryView(ListView):
     template_name = 'hotelapp/gallery.html'
 
 
-class BookingCreateView(CreateView):
+class BookingCreateView(LoginRequiredMixin, CreateView):
     model = BookingOrder
-    fields = '__all__'
+    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:index')
     template_name = 'hotelapp/booking.html'
 

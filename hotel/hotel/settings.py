@@ -134,7 +134,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_FILE_PATH = '/tmp/emails'
 
 # Переназначение модели пользователя
-AUTH_USER_MODEL = 'usersapp.GuestUser'
+AUTH_USER_MODEL = 'usersapp.HotelUser'
 
 # Переходы
 # Куда идти после логина
