@@ -45,9 +45,11 @@ class GalleryView(ListView):
 
 class BookingCreateView(LoginRequiredMixin, CreateView):
     model = BookingOrder
-    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
+    fields = ['who','room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:index')
     template_name = 'hotelapp/booking.html'
+
+
 
 
 class AdmListView(ListView):
