@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 from .models import Client, Gallery, BookingOrder
+from  usersapp.models import HotelUser
 from .forms import ContactForm
 
 
@@ -45,11 +46,13 @@ class GalleryView(ListView):
 
 class BookingCreateView(LoginRequiredMixin, CreateView):
     model = BookingOrder
-    fields = ['who','room', 'data_in', 'data_out', 'is_breakfast']
+    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:index')
     template_name = 'hotelapp/booking.html'
 
-
+    def form_valid(self, form):
+        form.instance.who = self.request.user.client
+        return super(BookingCreateView, self).form_valid(form)
 
 
 class AdmListView(ListView):
@@ -58,13 +61,17 @@ class AdmListView(ListView):
     context_object_name = 'books'
 
     def get_queryset(self):
-        return BookingOrder.objects.all()
+        if self.request.user.is_superuser:
+            return BookingOrder.objects.all()  # суперпользователь управляет всеми бронированиями
+        else:
+            return BookingOrder.objects.filter(who=self.request.user)
 
 
 class BookDetailView(DetailView):
     model = BookingOrder
+    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     template_name = 'hotelapp/booking_detail.html'
-    success_url = reverse_lazy('hotel:administration.html')
+    success_url = reverse_lazy('hotel:administration')
 
     def get(self, request, *args, **kwargs):
         self.booking_id = kwargs['pk']
@@ -77,11 +84,12 @@ class BookDetailView(DetailView):
 class BookUpdateView(UpdateView):
     template_name = 'hotelapp/booking_update.html'
     model = BookingOrder
-    fields = '__all__'
-    success_url = reverse_lazy('hotel:administration.html')
+    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
+    success_url = reverse_lazy('hotel:administration')
 
 
 class BookDeleteView(DeleteView):
     template_name = 'hotelapp/booking_delete_confirm.html'
     model = BookingOrder
-    success_url = reverse_lazy('hotel:administration.html')
+    fields = ['room', 'data_in', 'data_out', 'is_breakfast']
+    success_url = reverse_lazy('hotel:administration')
