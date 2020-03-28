@@ -5,7 +5,7 @@ from usersapp.models import HotelUser
 
 # Номерной фонд
 class Room(models.Model):
-    number = models.PositiveSmallIntegerField()
+    number = models.PositiveSmallIntegerField(unique=True)
     TYPE_CHOICES = (
         ('D', 'Одна двуспальная кровать'),
         ('S', 'Две односпальные кровати'),
@@ -24,6 +24,7 @@ class Client(HotelUser):
     live_place = models.CharField(max_length=30)
     phone = PhoneField(blank=True)
     passport = models.CharField(max_length=10, unique=True)
+
 
     def __str__(self):
         return f'{self.family_name} {self.name}'
@@ -50,6 +51,8 @@ class BookingOrder(models.Model):
 class HistoryPrice(models.Model):
     data = models.DateField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    create = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return f'{self.data} {self.price}'
