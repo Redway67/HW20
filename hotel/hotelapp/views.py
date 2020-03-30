@@ -54,7 +54,7 @@ class BookingCreateView(LoginRequiredMixin, CreateView):
         form.instance.who = self.request.user.client
         return super(BookingCreateView, self).form_valid(form)
 
-
+#24
 class AdmListView(ListView):
     model = BookingOrder
     template_name = 'hotelapp/administration.html'
