@@ -1,5 +1,6 @@
 from django.db import models
 from phone_field import PhoneField
+from usersapp.models import HotelUser
 
 
 # Номерной фонд
@@ -16,15 +17,22 @@ class Room(models.Model):
 
 
 # Клиенты
-class Client(models.Model):
+class Client(HotelUser):
     family_name = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
-    phone = PhoneField()
-    email = models.EmailField()
+    birthday = models.DateField()
+    live_place = models.CharField(max_length=30)
+    phone = PhoneField(blank=True)
+    passport = models.CharField(max_length=10, unique=True)
+
 
     def __str__(self):
         return f'{self.family_name} {self.name}'
 
+
+# hotelier anapa2020
+# ivanov yj@y2mzaHb@6W9C
+# petrov Xa9cur47@bunZMb
 
 # Бронирования
 class BookingOrder(models.Model):
@@ -36,7 +44,7 @@ class BookingOrder(models.Model):
     is_breakfast = models.BooleanField()
 
     def __str__(self):
-        return f'Гость:{self.who} Заезд:{self.data_in} Выезд:{self.data_out} Номер:{self.room}'
+        return f'Гость:{self.who.name} Заезд:{self.data_in} Выезд:{self.data_out} Номер:{self.room}'
 
 
 # Прайс
