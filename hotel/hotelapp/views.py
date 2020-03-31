@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 from .models import Client, Gallery, BookingOrder
-from  usersapp.models import HotelUser
+from usersapp.models import HotelUser
 from .forms import ContactForm
 
 
@@ -54,7 +54,7 @@ class BookingCreateView(LoginRequiredMixin, CreateView):
         form.instance.who = self.request.user.client
         return super(BookingCreateView, self).form_valid(form)
 
-#24
+
 class AdmListView(ListView):
     model = BookingOrder
     template_name = 'hotelapp/administration.html'

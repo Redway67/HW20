@@ -59,3 +59,9 @@ class Gallery(models.Model):
     create = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='gallery', null=True, blank=True)
     description = models.TextField(blank=True)
+
+    def has_image(self):
+        return bool(self.image)
+
+    def __str__(self):
+        return f'{self.description}'
