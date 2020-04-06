@@ -39,7 +39,6 @@ def contact(request):
         return render(request, 'hotelapp/contact.html', context={'form': form})
 
 
-
 class GalleryView(ListView):
     model = Gallery
     template_name = 'hotelapp/gallery.html'
@@ -60,6 +59,7 @@ class AdmListView(ListView):
     model = BookingOrder
     template_name = 'hotelapp/administration.html'
     context_object_name = 'books'
+    paginate_by = 2
 
     def get_queryset(self):
         if self.request.user.is_superuser:
