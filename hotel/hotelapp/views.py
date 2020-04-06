@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from .models import Client, Gallery, BookingOrder
 from usersapp.models import HotelUser
 from .forms import ContactForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Главная страница - описание, пока ничего не меняем
@@ -38,7 +39,7 @@ def contact(request):
         return render(request, 'hotelapp/contact.html', context={'form': form})
 
 
-# Все остальное переписываем на CBV
+
 class GalleryView(ListView):
     model = Gallery
     template_name = 'hotelapp/gallery.html'
