@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load filter_extensions %}
 {% block title %}
     Управление
 {% endblock %}
@@ -9,7 +9,7 @@
         {% for item in books %}
         <li>
         <a href="{% url 'hotel:booking_detail' pk=item.pk %}">
-            {{item.who}}
+            {{item.who}} [{{item.data_in| rest_day }} дней до заезда]
         </a>
         /
         <a href="{% url 'hotel:booking_update' pk=item.pk %}">

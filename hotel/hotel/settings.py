@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phone_field',
     'hotelapp',
-    'usersapp'
+    'usersapp',
+    'filterapp'
 ]
 
 MIDDLEWARE = [
