@@ -4,10 +4,13 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
-from .models import Client, Gallery, BookingOrder
-from usersapp.models import HotelUser
+
+from usersapp.forms import RegistrationForm
+from .models import Client, Gallery, BookingOrder, Room
+from django.contrib.auth.views import LoginView
 from .forms import ContactForm
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
 
 
 # Главная страница - описание, пока ничего не меняем
@@ -94,3 +97,5 @@ class BookDeleteView(DeleteView):
     model = BookingOrder
     fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:administration')
+
+

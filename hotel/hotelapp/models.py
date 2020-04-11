@@ -3,8 +3,25 @@ from phone_field import PhoneField
 from usersapp.models import HotelUser
 
 
+class ActiveManager(models.Manager):
+
+    def get_queryset(self):
+        all_objects = super().get_queryset()
+        return all_objects.filter(is_active=True)
+
+
+class IsActiveMixin(models.Model):
+    objects = models.Manager()
+    active_objects = ActiveManager()
+    is_active = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+
 # Номерной фонд
-class Room(models.Model):
+# Поле is_active. Номер может быть выведен из обращения: ремонт, спецбронирование, не сезон и т.д.
+class Room(IsActiveMixin):
     number = models.PositiveSmallIntegerField()
     TYPE_CHOICES = (
         ('D', 'Одна двуспальная кровать'),
