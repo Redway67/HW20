@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-
+{% load filter_extensions %}
 {% block title %}
     Управление
 {% endblock %}
 
 {% block content %}
-<h2> {{warning}} </h2>
+
     <ul>
         {% for item in books %}
         <li>
         <a href="{% url 'hotel:booking_detail' pk=item.pk %}">
-            {{item.who}}
+            {{item.who}} [{{item.data_in| rest_day }} дней до заезда]
         </a>
         /
         <a href="{% url 'hotel:booking_update' pk=item.pk %}">
@@ -22,5 +22,22 @@
         </a>
         </li>
         {% endfor %}
+        <div class="pagination">
+        <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первый</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Следующий</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующий</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последний &raquo;</a>
+        {% endif %}
+        </span>
+        </div>
     </ul>
 {% endblock %}
