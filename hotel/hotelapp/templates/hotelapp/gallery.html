@@ -9,7 +9,9 @@
     <div class="col-lg-8 col-md-10 mx-auto">
         {% for picture in object_list %}
           <div class="col-lg-8 col-md-10 mx-auto">
-            <img src="{{picture.image.url}}" width="600">
+            {% if picture.image %}
+               <img src="{{picture.image.url}}" width="600">
+            {% endif %}
             <div>
               {{picture.description}}
             </div>
