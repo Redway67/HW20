@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic.base import ContextMixin
 from django.core.mail import send_mail
 
 from usersapp.forms import RegistrationForm
@@ -56,7 +57,15 @@ class BookingCreateView(LoginRequiredMixin, CreateView):
         return super(BookingCreateView, self).form_valid(form)
 
 
-class AdmListView(ListView):
+class WarningContextMixin(ContextMixin):
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['warning'] = 'Это должно быть в отдельном приложении АРМ Администратора !'
+        return context
+
+
+class AdmListView(ListView, WarningContextMixin):
     model = BookingOrder
     template_name = 'hotelapp/administration.html'
     context_object_name = 'books'
@@ -71,7 +80,7 @@ class AdmListView(ListView):
             return BookingOrder.objects.select_related('who', 'room').filter(who=self.request.user)
 
 
-class BookDetailView(DetailView):
+class BookDetailView(DetailView, WarningContextMixin):
     model = BookingOrder
     fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     template_name = 'hotelapp/booking_detail.html'
@@ -85,14 +94,14 @@ class BookDetailView(DetailView):
         return get_object_or_404(BookingOrder, pk=self.booking_id)
 
 
-class BookUpdateView(UpdateView):
+class BookUpdateView(UpdateView, WarningContextMixin):
     template_name = 'hotelapp/booking_update.html'
     model = BookingOrder
     fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:administration')
 
 
-class BookDeleteView(DeleteView):
+class BookDeleteView(DeleteView, WarningContextMixin):
     template_name = 'hotelapp/booking_delete_confirm.html'
     model = BookingOrder
     fields = ['room', 'data_in', 'data_out', 'is_breakfast']

@@ -7,6 +7,7 @@ PATH_PIC = '/gallery/'
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+
         print('Работаем MVT')
         Room.objects.create(number=101, type='D')
         Room.objects.create(number=102, type='S')
@@ -15,6 +16,7 @@ class Command(BaseCommand):
         Room.objects.create(number=202, type='D')
         Room.objects.create(number=203, type='S')
         print('Заполнены номера гостиницы')
+
 
         Gallery.objects.create(image=PATH_PIC + 'beach.jpg', description='Пляж "Кавказ"')
         Gallery.objects.create(image=PATH_PIC + 'pioneer_prospect.jpg', description='Пионерский проспект')
