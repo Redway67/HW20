@@ -12,8 +12,6 @@ from django.contrib.auth.views import LoginView
 from .forms import ContactForm
 
 
-
-
 # Главная страница - описание, пока ничего не меняем
 def main_view(request):
     return render(request, 'hotelapp/index.html', context={})
@@ -75,9 +73,11 @@ class AdmListView(ListView, WarningContextMixin):
 
     def get_queryset(self):
         if self.request.user.is_superuser:
-            return BookingOrder.objects.all()  # суперпользователь управляет всеми бронированиями
+            # суперпользователь управляет всеми бронированиями
+            # return BookingOrder.objects.all()
+            return BookingOrder.objects.select_related('who', 'room').all()
         else:
-            return BookingOrder.objects.filter(who=self.request.user)
+            return BookingOrder.objects.select_related('who', 'room').filter(who=self.request.user)
 
 
 class BookDetailView(DetailView, WarningContextMixin):
@@ -106,4 +106,3 @@ class BookDeleteView(DeleteView, WarningContextMixin):
     model = BookingOrder
     fields = ['room', 'data_in', 'data_out', 'is_breakfast']
     success_url = reverse_lazy('hotel:administration')
-
