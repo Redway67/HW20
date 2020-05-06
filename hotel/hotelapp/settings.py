@@ -24,7 +24,7 @@ SECRET_KEY = '=hw5ypr+4n#xb724bplzb-awzr1tr)gl6hk701p0a*gcp6mowg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.hotelanapa.com','31.31.203.213','localhost']
 
 # Application definition
 
@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'hotelapp',
     'usersapp',
     'filterapp',
-    'debug_toolbar',
-    'rest_framework',
-    'django_cleanup.apps.CleanupConfig'
-
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -80,12 +77,22 @@ WSGI_APPLICATION = 'hotel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# настраиваем базу данных
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'sitedb',
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': 'django',
+        'PASSWORD': 'nu123456',
+        'HOST': 'localhost'
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -151,11 +158,3 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
