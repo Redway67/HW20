@@ -17,11 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework import routers
+from hotelapp.api_views import ClientViewSet , RoomViewSet
+
+
+router = routers.DefaultRouter()
+router.register(r'clients', ClientViewSet)
+router.register(r'rooms', RoomViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hotelapp.urls', namespace='hotel')),
-    path('users/', include('usersapp.urls', namespace='users'))
+    path('users/', include('usersapp.urls', namespace='users')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/v0/', include(router.urls)),
 ]
 
 if settings.DEBUG:
