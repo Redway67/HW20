@@ -36,6 +36,11 @@
             <a href="?page={{ page_obj.next_page_number }}">Следующий</a>
             <a href="?page={{ page_obj.paginator.num_pages }}">Последний &raquo;</a>
         {% endif %}
+
+         <p> <a href="{% url 'users:profile' pk=user.pk %}">
+            Дополнительные сведения
+         </p>
+        </a>
         </span>
         </div>
     </ul>
